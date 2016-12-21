@@ -1,0 +1,21 @@
+﻿@model PairingTest.Web.Models.QuestionnaireViewModel
+
+<html>
+    <head>
+        <title>@Model.QuestionnaireTitle</title>
+    </head>
+    <body>
+    <form>
+        @Model.QuestionnaireTitle
+
+        @foreach (var question in Model.QuestionsText)
+        {
+            <div class="form-control">
+                @Html.DisplayFor(x => question)
+                @Html.TextBox("Answer")
+            </div>
+        }
+        <input type="submit"/>
+    </form>   
+    </body>
+</html>
