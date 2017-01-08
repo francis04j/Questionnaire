@@ -42,9 +42,9 @@ namespace PairingTest.Unit.Tests.Web
 
             //Assert
             Assert.IsNotNull(result);
-            Assert.IsTrue(result.QuestionsText.Any());
+            Assert.IsTrue(result.QuestionAnswers.Any());
             Assert.That(result.QuestionnaireTitle, Is.EqualTo(expectedQuestion.QuestionnaireTitle));
-            Assert.That(result.QuestionsText.First(), Is.EqualTo(expectedQuestion.QuestionsText.First()));
+            Assert.That(result.QuestionAnswers.First().QuestionText, Is.EqualTo(expectedQuestion.QuestionsText.First()));
 
         }
 

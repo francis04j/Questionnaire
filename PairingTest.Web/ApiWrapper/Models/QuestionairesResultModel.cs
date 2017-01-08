@@ -13,5 +13,6 @@ namespace PairingTest.Web.ApiWrapper.Models
         public string QuestionnaireTitle { get; set; }
         
         public IList<string> QuestionsText { get; set; }
+        public IList<string> Answer { get; set; }
     }
 }

@@ -4,18 +4,29 @@
     <head>
         <title>@Model.QuestionnaireTitle</title>
     </head>
-    <body>
-    <form>
-        @Model.QuestionnaireTitle
+<body>
+@using (Html.BeginForm("Submit", "Questionnaire", FormMethod.Post))
+{
+    @Model.QuestionnaireTitle
+    <p>What if the answers is multiple choice</p>
 
-        @foreach (var question in Model.QuestionsText)
-        {
-            <div class="form-control">
-                @Html.DisplayFor(x => question)
-                @Html.TextBox("Answer")
-            </div>
-        }
-        <input type="submit"/>
-    </form>   
-    </body>
+    for(int i = 0; i < Model.QuestionAnswers.Count;i++) 
+     {
+         <div class="form-control">
+             @Html.LabelFor(x => Model.QuestionAnswers[i].QuestionText, Model.QuestionAnswers[i].QuestionText)
+             @Html.HiddenFor(x=> Model.QuestionAnswers[i].QuestionText)
+             @for(int j=0; j < Model.QuestionAnswers[i].Answer.Count;j++)
+             {
+                 @Html.RadioButtonFor(x=>Model.QuestionAnswers[i].Selected , Model.QuestionAnswers[i].Answer[j].AnswerText)
+                
+                <label class="control-label">@Model.QuestionAnswers[i].Answer[j].AnswerText</label>
+             }
+             
+         </div>
+     }
+    <input type="submit"/>
+
+}
+
+</body>
 </html>

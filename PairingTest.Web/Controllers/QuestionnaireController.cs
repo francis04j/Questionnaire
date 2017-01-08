@@ -38,5 +38,12 @@ namespace PairingTest.Web.Controllers
             
             return Json(questions, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPost]
+        public ActionResult Submit(QuestionnaireViewModel viewModel)
+        {
+           
+            return View("Success");
+        }
     }
 }
