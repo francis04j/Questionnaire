@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package qstNairePackage;
+
+service Questionnaire {
+    rpc createQuestion(Question) returns (Question);
+    rpc GetQuestion(Query) returns (Question);
+    rpc GetQuestions(voidParam) returns (Questions);
+}
+
+message Query {
+    int32 id = 1;
+}
+
+message Question {
+    int32 id = 1;
+    string text = 2;
+}
+
+message Questions {
+    repeated Question questions = 1;
+}
+
+message voidParam {}
