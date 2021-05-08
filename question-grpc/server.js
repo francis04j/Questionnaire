@@ -9,7 +9,7 @@ const packageDef = protoLoader.loadSync("qstNairePackage.proto",
     enums: String,
     defaults: true,
     oneofs: true,
-    includeDirs: ['node_modules/google-proto-files', '.']
+    includeDirs: [__dirname + protoFiles, '.']
     },
 );
 const grpcObject = grpc.loadPackageDefinition(packageDef);
@@ -22,13 +22,15 @@ const server = new grpc.Server();
 server.bind("0.0.0.0:40000", grpc.ServerCredentials.createInsecure()) //http2 requires you to secure by default
 server.addService(qstNairePackage.Questionnaire.service, { //let your server know about service
     "createQuestion": createQuestion,
-    "GetQuestions": GetQuestions
+    "GetQuestions": GetQuestions,
+    "GetQuestion": GetQuestion,
+    "GetQuestionsStream": GetQuestionsStream
 });
 const questions = []
 // call: client
 // callback: you sending information back
 function createQuestion(call, callback) {
-    // console.log(call);
+    console.log(call);
     const qs = {
         "id": questions.length + 1,
         "text": call.request.text
@@ -44,4 +46,17 @@ function GetQuestions(call, callback) {
    callback(null, {"questions": questions}); 
 }
 
+function GetQuestion(call, callback) {
+    const qs = questions.find( x => x.id == call.request.id);
+    if(qs) {
+        callback(null, qs);
+    }else{
+        callback(null, {"id": 1, 'question': 'undefinedN'}); //added this because 
+    }
+}
+
+function GetQuestionsStream(call, callback) {
+    questions.forEach(q => call.write(q));
+    call.end();
+}
 server.start();

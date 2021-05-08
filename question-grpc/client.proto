@@ -1,11 +1,9 @@
 syntax = "proto3";
-
-package qstNairePackage;
+//in grpc, you dont have to use the same proto file
+package qstNairePackage; // package name have to match
 
 service Questionnaire {
-    rpc createQuestion(Question) returns (Question);
-    rpc GetQuestion(Query) returns (Question);
-    rpc GetQuestions(voidParam) returns (Questions);
+    rpc createQuestion(Question) returns (Question); //only define the functions that you want to consume
     rpc GetQuestionsStream(voidParam) returns (stream Question);
 }
 
