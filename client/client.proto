@@ -5,6 +5,8 @@ package qstNairePackage; // package name have to match
 service Questionnaire {
     rpc createQuestion(Question) returns (Question); //only define the functions that you want to consume
     rpc GetQuestionsStream(voidParam) returns (stream Question);
+
+    rpc GetQuestions(voidParam) returns(Questions);
 }
 
 message Query {

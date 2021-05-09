@@ -1,27 +1,27 @@
-const grpc = require('grpc')
+const grpc = require('@grpc/grpc-js')
 const protoLoader = require("@grpc/proto-loader");
 const protoFiles = require('google-proto-files');
+const PROTO_PATH = 'client.proto';
 
-// lets user be able to type questions
+// lets user be able to type questions from command line
 const queston = process.argv[2] || 'test';
 
-const packageDef = protoLoader.loadSync("client.proto", 
+const packageDefinition = protoLoader.loadSync(PROTO_PATH, 
 {
     keepCase: true,
     longs: String,
     enums: String,
     defaults: true,
     oneofs: true,
-    includeDirs: [__dirname + 'node_modules/google-proto-files', '.']
+    includeDirs: [__dirname + protoFiles, '.']
     },
 );
-const grpcObject = grpc.loadPackageDefinition(packageDef);
+const qstNairePackage = grpc.loadPackageDefinition(packageDefinition).qstNairePackage;
 
-const qstNairePackage = grpcObject.qstNairePackage;
 
-//client connects, server listens
+const questionService = new qstNairePackage.Questionnaire("localhost:40000", grpc.credentials.createInsecure());
 
-const client = new qstNairePackage.Questionnaire("localhost:40000", grpc.credentials.createInsecure());
+module.exports = questionService;
 
 // let i;
 // for(i= 0; i < 5; i ++)
@@ -42,10 +42,10 @@ const client = new qstNairePackage.Questionnaire("localhost:40000", grpc.credent
 //     console.log('GetQuestion: Received from server', JSON.stringify(response))
 // });
 
-const call = client.GetQuestionsStream();
-call.on("data", item => {
-    console.log('recived item from server', JSON.stringify(item))
-});
+// const call = client.GetQuestionsStream();
+// call.on("data", item => {
+//     console.log('recived item from server', JSON.stringify(item))
+// });
 
 
-call.on('end', e => console.log('server done'));
+// call.on('end', e => console.log('server done'));
